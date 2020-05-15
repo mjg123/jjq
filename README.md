@@ -1,9 +1,9 @@
 # JJQ - jq for Java
 
 This is a proof-of-concept of an expression language for manipulating JSON in Java, heavily inspired by  [jq](https://stedolan.github.io/jq/).
-With JJQ you can filter, manipulate and transform JSON, it allows code like this:
+With JJQ you can filter, manipulate and transform JSON, and return multiple results if you need to. It allows code like this:
 
-```
+```java
 JsonNode input = getInputNode();
   //  { "a": "hello",
   //    "b": {"c": ["d", "e", "f"]},
@@ -19,17 +19,19 @@ Stream<JsonNode> outputs = JJQ.runFilter(
   //   ["i", {"h": "i"}]      <--- json array
 ```
 
+[[this code in the repo](https://github.com/mjg123/jjq/blob/master/src/main/java/lol/gilliard/jjq/JJQExample.java#L14-L25)]
+
 ## A request
 
 If a library like this would be useful for you, please let me know by telling me on twitter, I am [@MaximumGilliard](https://twitter.com/MaximumGilliard). I'd love to hear from you and find out what you'd like.
 
 ## Filters
 
-Like `jq`, this works on the principle of **filters**. A filter takes one or more JSON nodes and processes them independently, returning one or more JSON nodes. The current implementation uses Jackson's `JsonNode` as its basic type.
+Like `jq`, this works on the principle of **filters**. A filter takes one or more JSON nodes and processes them independently, each time returning one or more JSON nodes. The current implementation uses Jackson's `JsonNode` as its basic type.
 
 Filters can extract values from their input, for example `.a` is a filter which turns `{"a": 123}` into `123`.
 
-Filters can be joined together using a `|` (pipe) operator which passes the output of the filter to the _left_ into the filter on the _right_, or a `,` (comma) operator which passes the same input to filters on both sides and collects the results. Pipes have higher precedence than commas, but you can use `()` (parens) to control this.
+Filters can be joined together using a `|` (pipe) operator which passes the output of the filter to the _left_ into the filter on the _right_, or a `,` (comma) operator which passes the same input to filters on both sides and collects the results. Commas have higher precedence than pipes, but you can use `()` (parens) to control this.
 
 Filters can also create new JSON objects, arrays and values from scratch. You can combine all this to define really powerful manipulations on JSON in
 a short amount of code. 
@@ -93,7 +95,7 @@ The examples above are not a complete list of what's possible. Generally filters
 
 ## To-do
 
-There is a lot to do, after all this is a POC. Very near the top of my list would be the ability to map the results onto custom classes, and the addition of a few of the more complex filters that `jq` has. I do not intend to implement _all_ of the power of `jq` - in fact `jq` is incredibly powerful and rather complex - it's [a dynamically-typed functional programming language with second-class higher-order functions of dynamic extent](https://github.com/stedolan/jq/wiki/jq-Language-Description#The-jq-Language), which is a lot more than I think is needed for a Java library.
+There is a lot to do, after all this is a POC. Very near the top of my list would be the ability to map the results onto custom classes, and the addition of a few of the more complex filters that `jq` has. I do not intend to implement _all_ of the power of `jq` - in fact `jq` is incredibly powerful and rather complex - it's [a dynamically-typed functional programming language with second-class higher-order functions of dynamic extent](https://github.com/stedolan/jq/wiki/jq-Language-Description#The-jq-Language), which is a lot more than I think is needed for a Java library. The goal here is to provide an easy and powerful way to manipulate JSON before turning it over to your Java code.
 
 ## License
 This project is under the MIT license.
