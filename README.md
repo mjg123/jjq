@@ -74,16 +74,16 @@ Here we start to see filters that can produce multiple outputs. The current impl
 
 |Filter| Input | Filter expression | Output(s) |
 |---|---|---|---|
-|Pipe operator|`{"a": [1, 2, 3]}`|`.a | .[0]`|`1`|
+|Pipe operator|`{"a": [1, 2, 3]}`|`.a \| .[0]`|`1`|
 |Comma operator|`{"a": "one", "b": "two"}`|`.a, .b`|`"one"` `"two"`|
-|Pipes and commas|`{"a": [1,2,3], "b": [4,5,6]}`|`.a, .b | .[1]`| `2` `5` |
+|Pipes and commas|`{"a": [1,2,3], "b": [4,5,6]}`|`.a, .b \| .[1]`| `2` `5` |
 
 ### Controlling precedence with parens
 
 |Filter| Input | Filter expression | Output(s) |
 |---|---|---|---|
-|Without parens|`{"a": {"b": "one"}, "c": "two"`|`.a | .b , .c`|`"one"` `null`|
-|With parens|`{"a": {"b": "one"}, "c": "two"`|`(.a | .b) , .c`|`"one"` `"two"`|
+|Without parens|`{"a": {"b": "one"}, "c": "two"`|`.a \| .b , .c`|`"one"` `null`|
+|With parens|`{"a": {"b": "one"}, "c": "two"`|`(.a \| .b) , .c`|`"one"` `"two"`|
 
 
 
